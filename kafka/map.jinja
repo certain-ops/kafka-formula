@@ -1,0 +1,14 @@
+{% set os_family_map = salt['grains.filter_by']({
+  'Debian': {
+    'pkgrepo_root': 'deb',
+    'pkgrepo_dist_suffix': '',
+    'pkgrepo': 'http://packages.confluent.io/deb/3.2',
+    'key_url': ''
+  },  
+  'RedHat': {
+    'pkgrepo_root': 'rpm',
+    'pkgrepo_dist_suffix': '6',
+    'pkgrepo': 'http://packages.confluent.io/rpm/3.3/6',
+    'key_url': ''
+  }
+}, merge=salt['pillar.get']('kafka:lookup')) %}
