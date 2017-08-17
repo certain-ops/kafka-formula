@@ -1,4 +1,43 @@
 kafka:
+  # Optional. Kafka version
+  #   Default: 0.11.0.0
+  version: 0.11.0.0
+
+  # Optional. Scala version.
+  #   NOTE: Confluent only supports scala 2.11
+  #   Default: 2.11
+  scala_version: 2.12
+
+  # Optional. Upstream source of Kafka packages.
+  #   Type: string
+  #   Options: apache, confluent
+  #   Default: confluent
+  source: apache
+
+  # Optional. Define kafka broker nodes.
+  #   Type: list
+  nodes:
+    - kafka01
+    - kafka02
+    - kafka03
+
+  # Optional. Define kafka broker clusters.
+  #   Type: Dictionary
+  #   Does Not Work With: nodes
+  clusters:
+
+    # Define kafka broker nodes for cluster01
+    #   Type: list
+    cluster01:
+      - kafka01
+      - kafka02
+      - kafka03
+
+  # Optional. Define method to target kafka nodes
+  #   Default: grains
+  targeting_method: glob
+
+  # JVM and Kafka configuration files
   config:
     heap_initial_size: 1G
     heap_max_size: 1G

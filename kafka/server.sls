@@ -8,6 +8,7 @@ kafka-systemd-unit:
   file.managed:
     - name: /lib/systemd/system/kafka.service
     - source: salt://kafka/files/kafka.service.systemd
+    - template: jinja
 
 kafka-config:
   file.managed:
@@ -16,8 +17,9 @@ kafka-config:
     - template: jinja
     - context:
       zookeepers: {{ zk.connection_string }}
+    - makedirs: True
     - require:
-      - pkg: confluent-kafka-2.11
+      - sls: kafka.install
 
 kafka-environment:
   file.managed:
@@ -30,7 +32,7 @@ kafka-service:
     - name: kafka
     - enable: True
     - require:
-      - pkg: confluent-kafka-2.11
+      - sls: kafka.install
       - file: kafka-environment
       - file: kafka-systemd-unit
     {%- if kafka.restart_on_config_change == True %}

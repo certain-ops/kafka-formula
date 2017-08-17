@@ -1,3 +1,5 @@
+{% from 'kafka/settings.sls' import kafka with context -%}
+
 [Unit]
 Description=Kafka Broker
 
@@ -15,7 +17,8 @@ EnvironmentFile=-/etc/default/kafka
 # Increase limit on number of open files.
 LimitNOFILE=8192
 
-ExecStart=/usr/bin/kafka-server-start ${KAFKA_CONFIG}/server.properties
+WorkingDirectory={{ kafka.pwd }}
+ExecStart={{ kafka.bin }} ${KAFKA_CONFIG}/server.properties
 
 [Install]
 WantedBy=multi-user.target
