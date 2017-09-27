@@ -3,7 +3,7 @@
 {% set g = salt['grains.get']('kafka', {}) %}
 {% set gc = g.get('config', {}) %}
 
-{%- set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', '/usr/lib/java')) %}
+{%- set java_home = salt['grains.get']('java_home', salt['pillar.get']('java_home', g.get('java_home', p.get('java_home', '/usr/lib/java')))) %}
 
 # Global config options - pillar only
 {% set restart_on_config_change  = pc.get('restart_on_config_change', False) %}
@@ -65,6 +65,7 @@
 
 {%- set kafka = {} %}
 {%- do kafka.update({
+  'java_home'                : java_home,
   'heap_initial_size'        : heap_initial_size,
   'heap_max_size'            : heap_max_size,
   'chroot_path'              : chroot_path,
