@@ -21,6 +21,7 @@ kafka-pkg-setup:
     - source_hash: {{ source_hash }}
     - user: kafka
     - group: kafka
+    - skip_verify: True
   file.symlink:
     - name: {{ kafka.prefix }}/kafka
     - target: {{ kafka.prefix }}/kafka_{{ kafka.scala_version }}-{{ kafka.version }}
