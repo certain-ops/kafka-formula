@@ -1,28 +1,10 @@
-{%- from 'kafka/settings.sls' import kafka with context %}
+{%- from 'kafka/settings.sls' import kafka with context -%}
 
-JAVA_HOME={{ kafka.java_home }}
-
-# whether to allow init.d script to start a kafka broker ("yes", "no")
-KAFKA_START=no
-
-# User and group to run as
-KAFKA_USER=kafka
-KAFKA_GROUP=kafka
-KAFKA_CONFIG=/etc/kafka
-
-# The default JMX_PORT for Kafka Brokers is 9999.
-# Set JMX_PORT to something else to override this.
-#JMX_PORT=9999
-#KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"}
-
-# Memory sizes, and logging configuration
-#KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/etc/kafka/log4j.properties"
-
-# Default GC settings.
-#KAFKA_JVM_PERFORMANCE_OPTS="-server -XX:+UseCompressedOops -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC"
-# LinkedIn recommended GC settings.  See: https://kafka.apache.org/081/ops.html
-# You need Java 7 u51 or greater to use the G1 GC.
-#KAFKA_JVM_PERFORMANCE_OPTS="-server -XX:PermSize=48m -XX:MaxPermSize=48m -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35"
-
+{#- Maintain backward compatibility #}
+{%- if kafka.heap_max_size is defined and kafka.heap_initial_size is defined %}
 KAFKA_HEAP_OPTS="-Xmx{{ kafka.heap_max_size }} -Xms{{ kafka.heap_initial_size}}"
-# #KAFKA_OPTS=""
+{%- endif %}
+
+{%- for k, v in kafka.environment.iteritems() %}
+{{ k }}={{ v }}
+{%- endfor %}

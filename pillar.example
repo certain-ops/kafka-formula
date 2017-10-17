@@ -45,3 +45,9 @@ kafka:
     restart_on_config_change: True
     properties:
       delete.topic.enable: 'true'
+
+  # Kafka environment
+  environment:
+    JAVA_HOME: '/usr/local/java'
+    JMX_PORT: 9999
+    KAFKA_HEAP_OPTS: '-Xmx4G -Xms2G'
