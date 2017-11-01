@@ -1,0 +1,63 @@
+kafka:
+  source: 'confluent'
+  scala_version: '2.11'
+  targeting_method: 'grain'
+  hosts_target: 'roles:zookeeper'
+  hosts_function: 'network.get_hostname'
+  restart_on_config_change: True
+  confluent:
+    version: '3.3'
+  apache:
+    version: '0.11.0.0'
+    prefix: '/usr/lib'
+    sources:
+      - 'http://download.nextag.com/apache/kafka'
+      - 'http://apache.claz.org/kafka'
+      - 'http://apache.cs.utah.edu/kafka'
+      - 'http://apache.ip-guide.com/kafka'
+      - 'http://apache.mirrors.hoobly.com/kafka'
+      - 'http://apache.mirrors.ionfish.org/kafka'
+      - 'http://apache.mirrors.lucidnetworks.net/kafka'
+      - 'http://apache.mirrors.pair.com/kafka'
+      - 'http://apache.mirrors.tds.net/kafka'
+      - 'http://apache.spinellicreations.com/kafka'
+  config:
+    chroot_path: kafka/team_cluster # This is for the zookeeper path
+    restart_on_config_change: True # This should be deprecated. It shouldn't be in config.
+    #broker.id: 0
+    #listeners: 'PLAINTEXT://:9092'
+    #advertised.listeners: 'PLAINTEXT://your.host.name:9092'
+    num.network.threads: 3
+    num.io.threads: 8
+    socket.send.buffer.bytes: 102400
+    socket.receive.buffer.bytes: 102400
+    socket.request.max.bytes: 104857600
+    log.dirs: /var/log/kafka
+    num.partitions: 1
+    num.recovery.threads.per.data.dir: 1
+    #log.flush.interval.messages: 10000
+    #log.flush.interval.ms: 1000
+    log.retention.hours: 168
+    #log.retention.bytes: 1073741824
+    log.segment.bytes: 1073741824
+    log.retention.check.interval.ms: 300000
+    zookeeper.connection.timeout.ms: 6000
+    confluent.support.metrics.enable: 'true'
+    confluent.support.customer.id: 'anonymous'
+  environment:
+    KAFKA_HEAP_OPTS: '-Xmx4G -Xms2G'
+    KAFKA_USER: 'kafka'
+    KAFKA_GROUP: 'kafka'
+    KAFKA_CONFIG: '/etc/kafka'
+    KAFKA_START: 'no'
+    #JAVA_HOME: '/usr/local/java'
+    #JMX_PORT: 9999
+    #KAFKA_JMX_OPTIONS: '-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false'
+    #KAFKA_LOG4J_OPTS: '-Dlog4j.configuration=file:/etc/kafka/log4j.properties'
+
+    # Default GC settings.
+    #KAFKA_JVM_PERFORMANCE_OPTS: '-server -XX:+UseCompressedOops -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC'
+
+    # LinkedIn recommended GC settings.  See: https://kafka.apache.org/081/ops.html
+    # You need Java 7 u51 or greater to use the G1 GC.
+    #KAFKA_JVM_PERFORMANCE_OPTS: '-server -XX:PermSize=48m -XX:MaxPermSize=48m -XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35'
