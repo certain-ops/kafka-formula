@@ -8,6 +8,8 @@
 {%- set source_hash = salt['cmd.run']("curl -s https://dist.apache.org/repos/dist/release/kafka/{kv}/kafka_{sv}-{kv}.tgz.md5 | cut -d ' ' -f 2- | tr -d ' ' | tr '[:upper:]' '[:lower:]'".format(kv=version, sv=kafka.scala_version)) -%}
 
 kafka-pkg-setup:
+  group.present:
+    - name: kafka
   user.present:
     - name: kafka
     - shell: /bin/false
