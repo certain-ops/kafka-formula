@@ -5,7 +5,7 @@
 {#- Salt doesn't recognize the MD5 format supplied by apache, so we do some 
     formatting here
 #}
-{%- set source_hash = salt['cmd.run']("curl -s https://dist.apache.org/repos/dist/release/kafka/{kv}/kafka_{sv}-{kv}.tgz.md5 | cut -d ' ' -f 2- | tr -d ' ' | tr '[:upper:]' '[:lower:]'".format(kv=version, sv=kafka.scala_version)) -%}
+{%- set source_hash = salt['cmd.run']("curl -s https://archive.apache.org/dist/kafka/{kv}/kafka_{sv}-{kv}.tgz.md5 | cut -d ' ' -f 2- | tr -d ' ' | tr '[:upper:]' '[:lower:]'".format(kv=version, sv=kafka.scala_version)) -%}
 
 kafka-pkg-setup:
   group.present:
