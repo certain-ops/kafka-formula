@@ -11,16 +11,7 @@ kafka:
     version: '0.11.0.0'
     prefix: '/usr/lib'
     sources:
-      - 'https://download.nextag.com/apache/kafka'
-      - 'https://apache.claz.org/kafka'
-      - 'https://apache.cs.utah.edu/kafka'
-      - 'https://apache.ip-guide.com/kafka'
-      - 'https://apache.mirrors.hoobly.com/kafka'
-      - 'https://apache.mirrors.ionfish.org/kafka'
-      - 'https://apache.mirrors.lucidnetworks.net/kafka'
-      - 'https://apache.mirrors.pair.com/kafka'
-      - 'https://apache.mirrors.tds.net/kafka'
-      - 'https://apache.spinellicreations.com/kafka'
+      - 'https://archive.apache.org/dist/kafka'
   config:
     chroot_path: kafka/team_cluster # This is for the zookeeper path
     restart_on_config_change: True # This should be deprecated. It shouldn't be in config.
